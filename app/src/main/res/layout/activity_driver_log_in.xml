@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bglogin"
+    tools:context="com.example.kunal.uberclone.DriverLogInActivity">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="86dp"
+        android:text="Log in to your account"
+        android:textColor="#F0561A"
+        android:textSize="30dp" />
+
+    <EditText
+        android:id="@+id/loginEmail"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_above="@+id/loginPassword"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/loginemail"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:paddingStart="55dp" />
+
+    <EditText
+        android:id="@+id/loginPassword"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignEnd="@+id/loginEmail"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/loginpassword"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textEmailAddress"
+        android:paddingStart="55dp" />
+
+    <Button
+        android:id="@+id/login"
+        android:layout_width="223dp"
+        android:layout_height="44dp"
+        android:layout_below="@+id/loginPassword"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="51dp"
+        android:background="@drawable/loginbtn" />
+</RelativeLayout>

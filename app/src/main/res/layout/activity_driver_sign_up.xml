@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.kunal.uberclone.DriverSignUpActivity"
+    android:background="@drawable/driver">
+
+    <EditText
+        android:id="@+id/driverEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="200dp"
+        android:background="@drawable/email"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+
+        android:paddingStart="60dp"
+
+        android:textColor="@android:color/holo_orange_dark"
+        android:textCursorDrawable="@null" />
+
+    <EditText
+        android:id="@+id/driverPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/driverEmail"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/password"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:paddingStart="60dp"
+        android:textColor="@android:color/holo_orange_dark"
+        android:textCursorDrawable="@null" />
+
+    <EditText
+        android:id="@+id/driverPhoneNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/driverPassword"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/phonenumber"
+        android:ems="10"
+        android:hint="Phone number"
+        android:inputType="phone"
+        android:paddingStart="60dp"
+        android:textColor="@android:color/holo_orange_dark"
+        android:textCursorDrawable="@null" />
+
+    <ImageButton
+        android:id="@+id/signUpBtn"
+        android:layout_width="227dp"
+        android:layout_height="58dp"
+        android:layout_below="@+id/driverPhoneNumber"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/signupbtn" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="25dp"
+        android:text="Already have an account?"
+        android:textColor="@color/colorEditTextHint"
+        android:textSize="24sp"
+        android:textStyle="bold|italic" />
+
+</RelativeLayout>
