@@ -6,28 +6,16 @@ package com.example.kunal.uberclone;
 
 public class Driver {
 
-    String name;
     Double lat, lng;
-    Long phnNum;
     Boolean available;
 
     public Driver() {
     }
 
-    public Driver(String name, Double lat, Double lng, Long phnNum, Boolean available) {
-        this.name = name;
+    public Driver(Double lat, Double lng, Boolean available) {
         this.lat = lat;
         this.lng = lng;
-        this.phnNum = phnNum;
         this.available = available;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Double getLat() {
@@ -44,14 +32,6 @@ public class Driver {
 
     public void setLng(Double lng) {
         this.lng = lng;
-    }
-
-    public Long getPhnNum() {
-        return phnNum;
-    }
-
-    public void setPhnNum(Long phnNum) {
-        this.phnNum = phnNum;
     }
 
     public Boolean getAvailable() {

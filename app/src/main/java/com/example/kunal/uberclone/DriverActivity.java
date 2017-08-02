@@ -12,25 +12,43 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 public class DriverActivity extends AppCompatActivity {
+
+    private static final String TAG = "DriverActivity";
 
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference driverRef = database.getReference("drivers");
+    DatabaseReference callByRidersRef = database.getReference("callByRidersRef");
 
     LocationManager locationManager;
     LocationListener locationListener;
+
+    ListView requestListView;
+    ArrayList requestLists;
+    ArrayAdapter adapter;
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -53,8 +71,13 @@ public class DriverActivity extends AppCompatActivity {
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        Intent intent = getIntent();
         final Driver driver = new Driver();
+
+        requestListView = (ListView) findViewById(R.id.requestListView);
+        requestLists = new ArrayList();
+        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, requestLists);
+        requestListView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
         Button logout = (Button) findViewById(R.id.driverLogout);
         logout.setOnClickListener(new View.OnClickListener() {
@@ -66,10 +89,7 @@ public class DriverActivity extends AppCompatActivity {
             }
         });
 
-        driver.setName(intent.getStringExtra("email"));
-       // driver.setUid(user.getUid());
         driver.setAvailable(true);
-        driver.setPhnNum(intent.getLongExtra("phone", 0));
 
         locationListener = new LocationListener() {
             @Override
@@ -132,5 +152,43 @@ public class DriverActivity extends AppCompatActivity {
             }
 
         }
+
+        callByRidersRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                if(dataSnapshot != null) {
+
+                    MyLatLng myLatLng = dataSnapshot.getValue(MyLatLng.class);
+                    Log.i(TAG, "onChildAdded: " +myLatLng.getLatitude());
+                    Log.i(TAG, "onChildAdded: " +myLatLng.getLongitude());
+                    requestLists.add(myLatLng.getLatitude().toString() + ", " + myLatLng.getLongitude().toString());
+                    adapter.notifyDataSetChanged();
+
+                }
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
+
 }

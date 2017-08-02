@@ -35,10 +35,14 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
     LocationManager locationManager;
     LocationListener locationListener;
     private static final String TAG = "RiderActivity";
+    LatLng latLng;
+
+    boolean callUber = true;
 
     private FirebaseAuth mAuth;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference riderRef = database.getReference("riders");
+    DatabaseReference callByRidersRef = database.getReference("callByRidersRef");
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -63,6 +67,27 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        mAuth = FirebaseAuth.getInstance();
+
+        final Button bookUber = (Button) findViewById(R.id.bookUber);
+        bookUber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(callUber) {
+                    callByRidersRef.child(mAuth.getCurrentUser().getUid()).setValue(latLng);
+                    callUber = false;
+                    bookUber.setText("Cancel Uber");
+                }
+                else {
+                    callByRidersRef.child(mAuth.getCurrentUser().getUid()).removeValue();
+                    callUber = true;
+                    bookUber.setText("Call Uber");
+                }
+
+            }
+        });
+
         Button logout = (Button) findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +111,6 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
         });
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        mAuth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -98,6 +122,8 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
             public void onLocationChanged(Location location) {
 
                 mMap.clear();
+
+                latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
                 LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
                 mMap.addMarker(new MarkerOptions().position(myLocation).title("Marker in your location"));
@@ -147,6 +173,9 @@ public class RiderActivity extends FragmentActivity implements OnMapReadyCallbac
                 mMap.clear();
 
                 if(lastKnownLocation != null) {
+
+                    latLng = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+
                     LatLng myLocation = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
                     mMap.addMarker(new MarkerOptions().position(myLocation).title("Marker in your location"));
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15));

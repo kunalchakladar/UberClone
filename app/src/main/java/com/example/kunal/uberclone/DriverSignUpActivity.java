@@ -55,11 +55,9 @@ public class DriverSignUpActivity extends AppCompatActivity {
 
         final EditText email = (EditText) findViewById(R.id.driverEmail);
         final EditText password = (EditText) findViewById(R.id.driverPassword);
-        final EditText phoneNumber = (EditText) findViewById(R.id.driverPhoneNumber);
 
         email.setHintTextColor(getResources().getColor(R.color.colorEditTextHint));
         password.setHintTextColor(getResources().getColor(R.color.colorEditTextHint));
-        phoneNumber.setHintTextColor(getResources().getColor(R.color.colorEditTextHint));
 
         TextView textView = (TextView) findViewById(R.id.textView3);
         textView.setOnClickListener(new View.OnClickListener() {
@@ -80,16 +78,15 @@ public class DriverSignUpActivity extends AppCompatActivity {
                 long driverPhn;
                 driverEmail = email.getText().toString();
                 driverPassword = password.getText().toString();
-                driverPhn = Long.parseLong(phoneNumber.getText().toString());
 
-                signUpDriver(driverEmail, driverPassword, driverPhn);
+                signUpDriver(driverEmail, driverPassword);
 
             }
         });
 
     }
 
-    private void signUpDriver(final String driverEmail, String driverPassword, final long driverPhn) {
+    private void signUpDriver(final String driverEmail, String driverPassword) {
 
         mAuth.createUserWithEmailAndPassword(driverEmail, driverPassword)
                 .addOnCompleteListener(DriverSignUpActivity.this, new OnCompleteListener<AuthResult>() {
@@ -103,8 +100,6 @@ public class DriverSignUpActivity extends AppCompatActivity {
                         else{
 
                             Intent intent = new Intent(DriverSignUpActivity.this, DriverActivity.class);
-                            intent.putExtra("phone", driverPhn);
-                            intent.putExtra("email", driverEmail);
                             startActivity(intent);
                             finish();
 
